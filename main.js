@@ -66,20 +66,31 @@ const boxOffset = tallnessOfFace*(r(1/6, 1/5));
 const boxWidth = widthOfFace*(r(0.6,1));
 const boxHeight = tallnessOfFace*(r(1/4,1/2));
 
-const topLeftX = (paddingForCenter+((widthOfFace-boxWidth)/2))
+const leftEyeBox = (paddingForCenter+((widthOfFace-boxWidth)/2))
 const eyeBox = [
-  [topLeftX, (boxHeight+boxOffset)],
-  [topLeftX+boxWidth, (boxHeight+boxOffset)],
-  [topLeftX+boxWidth, boxOffset],
-  [topLeftX, boxOffset],
-  [topLeftX, (boxHeight+boxOffset)],
+  [leftEyeBox, (boxHeight+boxOffset)],
+  [leftEyeBox+boxWidth, (boxHeight+boxOffset)],
+  [leftEyeBox+boxWidth, boxOffset],
+  [leftEyeBox, boxOffset],
+  [leftEyeBox, (boxHeight+boxOffset)],
   ];
   
 allLines.push(eyeBox);
 
 
+//making the eyes
+const eyeWidth = boxWidth*(r(0.3, 0.45));
+const eyeHeight = boxHeight*(r(0.2, 0.7));
 
 
+const eyeLeft = bt.catmullRom([[leftEyeBox+eyeWidth,(boxHeight+boxOffset-eyeHeight)],
+                               [leftEyeBox+(eyeWidth*2), (boxHeight+boxOffset-eyeHeight)],
+                               [leftEyeBox+(eyeWidth*2), boxOffset],
+                               [leftEyeBox+eyeWidth, boxOffset],
+                               [leftEyeBox+eyeWidth, boxHeight+boxOffset-eyeHeight]], 25);
+
+
+allLines.push(eyeLeft);
 
 drawLines(allLines);
 
