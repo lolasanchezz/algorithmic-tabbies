@@ -116,7 +116,6 @@ bt.scale([innerEyeLeft], [eyeScale, eyeScale]);
 bt.translate([innerEyeLeft], [eyeWidth * ((1 - eyeScale) / 2), eyeHeight * ((1 - eyeScale) / 2)]);
 //^^this line works
 
-allLines.push(innerEyeLeft);
 
 
 const innerEyeRight = bt.copy(outerEyeRight);
@@ -136,29 +135,48 @@ previous for loop
 
 */
 
-const gapBetweenIterations = 1.48;
-const dotThickness = 54;
-
+const gapBetweenIterations = 0.95;
+const dotThickness = 0.05;
 const stiInnerEyeRight = bt.copy(innerEyeRight);
-//bt.scale([stiInnerEyeRight], gapBetweenIterations);
-//bt.resample([stiInnerEyeRight], 3.4);
-
-const dotsArray = [];
 
 
-for (let i = 0; i < (stiInnerEyeRight.length - 1); i++) {
+
+console.log(stiInnerEyeRight.length);
+
+while (stiInnerEyeRight.length > 2){
+  
   bt.scale([stiInnerEyeRight], gapBetweenIterations);
-  bt.resample([stiInnerEyeRight], 3.4);
-
-  let newLine = [
+  bt.resample([stiInnerEyeRight], 0.7);
+  
+  for (let i = 0; i < stiInnerEyeRight.length; i++){
+  let newRightLine = [
     [stiInnerEyeRight[i][0], stiInnerEyeRight[i][1]],
     [stiInnerEyeRight[i][0] + dotThickness, stiInnerEyeRight[i][1] + dotThickness]
   ];
-
-  dotsArray.push(newLine);
-
+  allLines.push(newRightLine);
+  
+  };
+  
 };
-console.log(dotsArray);
+
+
+const stiInnerEyeLeft = bt.copy(innerEyeLeft);
+
+while (stiInnerEyeLeft.length > 2){
+  
+  bt.scale([stiInnerEyeLeft], gapBetweenIterations);
+  bt.resample([stiInnerEyeLeft], 0.7);
+  
+  for (let i = 0; i < stiInnerEyeLeft.length; i++){
+  let newRightLine = [
+    [stiInnerEyeLeft[i][0], stiInnerEyeLeft[i][1]],
+    [stiInnerEyeLeft[i][0] + dotThickness, stiInnerEyeLeft[i][1] + dotThickness]
+  ];
+  allLines.push(newRightLine);
+  
+  };
+  
+};
 
 
 
@@ -166,9 +184,9 @@ console.log(dotsArray);
 
 
 
-allLines.push(dotsArray);
-allLines.push(innerEyeRight);
-//allLines.push(stiInnerEyeRight);
+
+//allLines.push(innerEyeLeft);
+//allLines.push(innerEyeRight);
 
 
 
