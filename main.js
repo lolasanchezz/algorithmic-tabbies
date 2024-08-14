@@ -63,10 +63,11 @@ allLines.push(looseCatOutline);
 
 //making the bounding box for the eyes
 const boxOffset = tallnessOfFace*(r(1/6, 1/5));
-const boxWidth = widthOfFace*(r(0.6,1));
-const boxHeight = tallnessOfFace*(r(1/4,1/2));
+const boxWidth = widthOfFace*(r(0.7,1));
+const boxHeight = tallnessOfFace*(r(1/3,1/1.75));
 
 const leftEyeBox = (paddingForCenter+((widthOfFace-boxWidth)/2))
+const rightEyeBoxP = leftEyeBox+boxWidth;
 const eyeBox = [
   [leftEyeBox, (boxHeight+boxOffset)],
   [leftEyeBox+boxWidth, (boxHeight+boxOffset)],
@@ -80,17 +81,25 @@ allLines.push(eyeBox);
 
 //making the eyes
 const eyeWidth = boxWidth*(r(0.3, 0.45));
-const eyeHeight = boxHeight*(r(0.2, 0.7));
+const eyeHeight = boxHeight*(r(0.5, 0.7));
+
+const eyePadding = eyeWidth*0.15;
+const eyePaddingY = eyeHeight*0.15;
+const outerEyeLeft = bt.catmullRom([[leftEyeBox+eyePadding,(boxOffset+eyeHeight)],
+                               [leftEyeBox+(eyeWidth), (boxOffset+eyeHeight)],
+                               [leftEyeBox+(eyeWidth), boxOffset+eyePaddingY],
+                               [leftEyeBox+eyePadding, boxOffset+eyePaddingY],
+                               [leftEyeBox+eyePadding, boxOffset+eyeHeight]], 100);
 
 
-const eyeLeft = bt.catmullRom([[leftEyeBox+eyeWidth,(boxHeight+boxOffset-eyeHeight)],
-                               [leftEyeBox+(eyeWidth*2), (boxHeight+boxOffset-eyeHeight)],
-                               [leftEyeBox+(eyeWidth*2), boxOffset],
-                               [leftEyeBox+eyeWidth, boxOffset],
-                               [leftEyeBox+eyeWidth, boxHeight+boxOffset-eyeHeight]], 25);
+const outerEyeRight = bt.catmullRom([[rightEyeBoxP-eyePadding, (boxOffset+eyeHeight)],
+                                    [rightEyeBoxP-eyeWidth, (boxOffset+eyeHeight)],
+                                    [rightEyeBoxP-eyeWidth, (boxOffset+eyePaddingY)],
+                                    [rightEyeBoxP-eyePadding, (boxOffset+eyePaddingY)],
+                                    [rightEyeBoxP-eyePadding, (boxOffset+eyeHeight)]],100); 
 
-
-allLines.push(eyeLeft);
+allLines.push(outerEyeLeft);
+allLines.push(outerEyeRight);
 
 drawLines(allLines);
 
