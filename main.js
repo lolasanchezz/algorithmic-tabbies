@@ -61,6 +61,8 @@ allLines.push(looseCatOutline);
 
 
 
+
+
 //making the bounding box for the eyes
 const boxOffset = tallnessOfFace * (r(1 / 6, 1 / 5));
 const boxWidth = widthOfFace * (r(0.7, 1));
@@ -76,7 +78,8 @@ const eyeBox = [
   [leftEyeBox, (boxHeight + boxOffset)],
 ];
 
-allLines.push(eyeBox);
+
+
 drawLines(allLines);
 
 //making the eyes
@@ -110,7 +113,7 @@ const eyeScale = 0.8;
 
 const innerEyeLeft = bt.copy(outerEyeLeft);
 bt.scale([innerEyeLeft], [eyeScale, eyeScale]);
-bt.translate([innerEyeLeft], [eyeWidth*((1-eyeScale)/2), eyeHeight*((1-eyeScale)/2)]);
+bt.translate([innerEyeLeft], [eyeWidth * ((1 - eyeScale) / 2), eyeHeight * ((1 - eyeScale) / 2)]);
 //^^this line works
 
 allLines.push(innerEyeLeft);
@@ -118,9 +121,57 @@ allLines.push(innerEyeLeft);
 
 const innerEyeRight = bt.copy(outerEyeRight);
 bt.scale([innerEyeRight], [eyeScale, eyeScale]);
-bt.translate([innerEyeRight], [-1*(eyeWidth*((1-eyeScale)/2)), eyeHeight*((1-eyeScale)/2)]);
+bt.translate([innerEyeRight], [-1 * (eyeWidth * ((1 - eyeScale) / 2)), eyeHeight * ((1 - eyeScale) / 2)]);
 
+//console.log(innerEyeRight);
+
+//attempting to stipple inside circles
+//attempt 1:
+/*
+in a for loop that depends on how big a shape is,
+the shape will be scaled, simplified OR resampled into 
+less points, the points will be drawn, and then that will repeat with
+the new shape translated being derived from the one in the
+previous for loop
+
+*/
+
+const gapBetweenIterations = 1.48;
+const dotThickness = 54;
+
+const stiInnerEyeRight = bt.copy(innerEyeRight);
+//bt.scale([stiInnerEyeRight], gapBetweenIterations);
+//bt.resample([stiInnerEyeRight], 3.4);
+
+const dotsArray = [];
+
+
+for (let i = 0; i < (stiInnerEyeRight.length - 1); i++) {
+  bt.scale([stiInnerEyeRight], gapBetweenIterations);
+  bt.resample([stiInnerEyeRight], 3.4);
+
+  let newLine = [
+    [stiInnerEyeRight[i][0], stiInnerEyeRight[i][1]],
+    [stiInnerEyeRight[i][0] + dotThickness, stiInnerEyeRight[i][1] + dotThickness]
+  ];
+
+  dotsArray.push(newLine);
+
+};
+console.log(dotsArray);
+
+
+
+
+
+
+
+allLines.push(dotsArray);
 allLines.push(innerEyeRight);
+//allLines.push(stiInnerEyeRight);
+
+
+
 
 
 drawLines(allLines);
