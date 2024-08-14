@@ -80,7 +80,7 @@ allLines.push(eyeBox);
 drawLines(allLines);
 
 //making the eyes
-const eyeWidth = boxWidth * (r(0.3, 0.45));
+const eyeWidth = boxWidth * (r(0.3, 0.4));
 const eyeHeight = boxHeight * (r(0.5, 0.7));
 
 const eyePadding = eyeWidth * 0.15;
@@ -110,12 +110,17 @@ const eyeScale = 0.8;
 
 const innerEyeLeft = bt.copy(outerEyeLeft);
 bt.scale([innerEyeLeft], [eyeScale, eyeScale]);
-bt.translate([innerEyeLeft], [eyeWidth((1-eyeScale), eyeHeight*((1-eyeScale)/2)]);
+bt.translate([innerEyeLeft], [eyeWidth*((1-eyeScale)/2), eyeHeight*((1-eyeScale)/2)]);
+//^^this line works
+
 allLines.push(innerEyeLeft);
 
 
 const innerEyeRight = bt.copy(outerEyeRight);
 bt.scale([innerEyeRight], [eyeScale, eyeScale]);
-bt.translate([innerEyeLeft], [-1*(eyeWidth*((1-eyeScale)/2)), -1*(eyeHeight*((1-eyeScale)/2))]);
+bt.translate([innerEyeRight], [-1*(eyeWidth*((1-eyeScale)/2)), eyeHeight*((1-eyeScale)/2)]);
+
+allLines.push(innerEyeRight);
+
 
 drawLines(allLines);
