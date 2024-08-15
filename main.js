@@ -105,8 +105,7 @@ const outerEyeRight = bt.catmullRom([
   [rightEyeBoxP - eyePadding, (boxOffset + eyeHeight)]
 ], 100);
 
-allLines.push(outerEyeLeft);
-allLines.push(outerEyeRight);
+
 
 //making inner eyes
 const eyeScale = 0.8;
@@ -135,49 +134,41 @@ previous for loop
 
 */
 
-const gapBetweenIterations = 0.95;
-const dotThickness = 0.05;
-const stiInnerEyeRight = bt.copy(innerEyeRight);
 
 
+function stippleV1(shape, Density) {
+//parameters
+  const gapBetweenIterations = 0.966;
+  const dotThickness = 0.01;
+  const density = Density;
+////
 
-console.log(stiInnerEyeRight.length);
-
-while (stiInnerEyeRight.length > 2){
+  const stiShape = bt.copy(shape);
+  while (stiShape.length > 2){
   
-  bt.scale([stiInnerEyeRight], gapBetweenIterations);
-  bt.resample([stiInnerEyeRight], 0.7);
-  
-  for (let i = 0; i < stiInnerEyeRight.length; i++){
+  bt.scale([stiShape], [gapBetweenIterations, gapBetweenIterations]);
+  bt.resample([stiShape], density);
+  //bt.rotate([stiShape], 25);
+  for (let i = 0; i < stiShape.length; i++){
+    let deviationX = r(0.5,1);
+    let deviationY = r(0.5 ,1);
   let newRightLine = [
-    [stiInnerEyeRight[i][0], stiInnerEyeRight[i][1]],
-    [stiInnerEyeRight[i][0] + dotThickness, stiInnerEyeRight[i][1] + dotThickness]
+    [stiShape[i][0] + deviationX, stiShape[i][1] + deviationY],
+    [stiShape[i][0] + dotThickness + deviationX, stiShape[i][1] + dotThickness + deviationY]
   ];
   allLines.push(newRightLine);
   
   };
   
 };
-
-
-const stiInnerEyeLeft = bt.copy(innerEyeLeft);
-
-while (stiInnerEyeLeft.length > 2){
   
-  bt.scale([stiInnerEyeLeft], gapBetweenIterations);
-  bt.resample([stiInnerEyeLeft], 0.7);
-  
-  for (let i = 0; i < stiInnerEyeLeft.length; i++){
-  let newRightLine = [
-    [stiInnerEyeLeft[i][0], stiInnerEyeLeft[i][1]],
-    [stiInnerEyeLeft[i][0] + dotThickness, stiInnerEyeLeft[i][1] + dotThickness]
-  ];
-  allLines.push(newRightLine);
-  
-  };
   
 };
 
+stippleV1(innerEyeLeft, 0.18);
+stippleV1(innerEyeRight, 0.18);
+stippleV1(outerEyeRight, 0.25);
+stippleV1(outerEyeLeft, 0.25);
 
 
 
@@ -185,8 +176,8 @@ while (stiInnerEyeLeft.length > 2){
 
 
 
-//allLines.push(innerEyeLeft);
-//allLines.push(innerEyeRight);
+
+
 
 
 
