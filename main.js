@@ -77,13 +77,13 @@ let maxY = line[index+1][1];
 x = line[index][0];
 y = line[index][1];
 
-while (y <= maxY){
+while (y >= maxY){
 x = x + r((-1*jaggedness), jaggedness);
-y = y + r(jaggedness/2, jaggedness^2);
+y = y - r(jaggedness/2, jaggedness^2);
 newPoints.push([x,y]);
-  
-}
-} else if (direction === "horizontal"){
+
+};
+} else {
 let maxX = line[index+1][0];
 x = line[index][0];
 y = line[index][1];
@@ -96,15 +96,21 @@ newPoints.push([x,y]);
 };
 
 };
+console.log(newPoints);
 
-line.splice(index, 2, newPoints);
+//months.splice(4, 1, 'May');
+// Replaces 1 element at index 4
+  
+looseCatOutline.splice(index, 2, [newPoints]);
   
 };
   
-jaggedOutline(looseCatOutline, 5, "vertical");  
+//jaggedOutline(looseCatOutline, 5, "vertical");  
 
 
-
+const months = ['Jan', 'March', 'April', 'June'];
+months.splice(1, 0, 'Feb');
+console.log(months);
 
 
 
@@ -216,11 +222,11 @@ function stippleV1(shape, Density, noise) {
   
 };
 
-stippleV1(innerEyeLeft, 0.17,1);
-stippleV1(innerEyeRight, 0.17,1);
-stippleV1(outerEyeRight, 0.25,1);
-stippleV1(outerEyeLeft, 0.25,1);
-stippleV1(looseCatOutline, 0.4,4);
+stippleV1(innerEyeLeft, 0.17,2);
+stippleV1(innerEyeRight, 0.17,2);
+stippleV1(outerEyeRight, 0.25,3);
+stippleV1(outerEyeLeft, 0.25,3);
+stippleV1(looseCatOutline, 0.4,10);
 
 
 
