@@ -190,9 +190,8 @@ previous for loop
 
 
 
-function stippleV1(shape, Density, noise) {
+function stippleV1(shape, Density, noise, gapBetweenIterations) {
 //parameters
-  const gapBetweenIterations = 0.966;
   const dotThickness = 0.01;
   const density = Density;
 ////
@@ -219,11 +218,11 @@ function stippleV1(shape, Density, noise) {
   
 };
 
-stippleV1(innerEyeLeft, 0.17,2);
-stippleV1(innerEyeRight, 0.17,2);
-stippleV1(outerEyeRight, 0.25,2);
-stippleV1(outerEyeLeft, 0.25,2);
-stippleV1(looseCatOutline, 0.1, 6);
+stippleV1(innerEyeLeft, 0.17,2, 0.966);
+stippleV1(innerEyeRight, 0.17,2,0.966);
+stippleV1(outerEyeRight, 0.25,2,0.966);
+stippleV1(outerEyeLeft, 0.25,2,0.966);
+stippleV1(looseCatOutline, 0.1, 6,0.935);
 
 
 //trying to draw stripes!!
@@ -238,21 +237,28 @@ const midEyeCoords = [bt.bounds([innerEyeLeft]).cb[0] - r(eyeWidth*0.3, eyeWidth
 console.log(midCoords);
 console.log(midEyeCoords);
 
+const midThickness = r(3,7);
+const topThickness = r(-3,3);
+const rightCurve =  [midEyeCoords[0] + midThickness, ((midEyeCoords[1]-midCoords[1])/2)*r(0.4,0.8)];
+const leftCurve = [midEyeCoords[0] - midThickness, ((midEyeCoords[1]-midCoords[1])/2)*r(0.4,0.8)];
 
-const bottomStripe = [
-  [midEyeCoords[0], midEyeCoords[1]],
-  [midEyeCoords[0] + r(3,6), midEyeCoords[1]],
+
+
+const bottomStripe = bt.catmullRom([
+  [midEyeCoords[0] - midThickness, midEyeCoords[1]],
+  [midEyeCoords[0] + midThickness, midEyeCoords[1]],
+  rightCurve,
   [midCoords[0] + r(4,7), midCoords[1]],
+  
   [midCoords[0], midCoords[1]],
-  [midEyeCoords[0], midEyeCoords[1]]
-  ];
+  leftCurve,
+  [midEyeCoords[0]-midThickness, midEyeCoords[1]]
+  ],100);
 
 //console.log(bottomStripe);
 //allLines.push(bottomStripe);
 
-stippleV1(bottomStripe, 0.17, 2);
-
-
+stippleV1(bottomStripe, -0.1, 2.1, 0.9);
 
 
 
