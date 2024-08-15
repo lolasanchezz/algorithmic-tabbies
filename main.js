@@ -242,20 +242,23 @@ const midEyeCoords = [
 ]
   */
 
-let pointMove = bt.randIntInRange(0,413);
+let pointMove = bt.randIntInRange(0,123);
 const midEyeCoords = outerEyeLeft[outerEyeLeft.indexOf(bt.bounds([outerEyeLeft]).cb[0])+(pointMove)];
+//console.log(bt.pointInside(outerEyeLeft, midEyeCoords));
+ pointMove = bt.randIntInRange(8,8);
 
- pointMove = bt.randIntInRange(0,302);
 
-const midCoords = looseCatOutline[looseCatOutline.indexOf(bt.bounds([looseCatOutline]).cb[0])+(pointMove)];
+console.log(looseCatOutline.indexOf(bt.bounds([looseCatOutline]).cb));
 
-console.log(bt.bounds([looseCatOutline]).cb);
+//^^equals -1????? bt.bounds is supposed to get a point from a line...
+const midCoords = looseCatOutline[looseCatOutline.indexOf((bt.bounds([looseCatOutline])).cb) + 1];
+
 
 
 const midThickness = r(3,7);
 const topThickness = r(-3,3);
-const rightCurve =  [midEyeCoords[0] + midThickness, ((midEyeCoords[1]-midCoords[1])/2)*r(0.4,0.8)];
-const leftCurve = [midEyeCoords[0] - midThickness, ((midEyeCoords[1]-midCoords[1])/2)*r(0.4,0.8)];
+const rightCurve =  [midEyeCoords[0], midEyeCoords[1]-midThickness];
+const leftCurve = [midEyeCoords[0], midEyeCoords[1]-midThickness];
 
 
 
@@ -263,20 +266,19 @@ const leftCurve = [midEyeCoords[0] - midThickness, ((midEyeCoords[1]-midCoords[1
 
 
 const bottomStripe = [
-  [midEyeCoords[0] - midThickness, midEyeCoords[1]],
-  [midEyeCoords[0] + midThickness, midEyeCoords[1]],
+  [midEyeCoords[0], midEyeCoords[1]],
+  [midEyeCoords[0], midEyeCoords[1]],
   rightCurve,
   [midCoords[0] + r(4,7), midCoords[1]],
-  
   [midCoords[0], midCoords[1]],
   leftCurve,
   [midEyeCoords[0]-midThickness, midEyeCoords[1]]
   ];
 
 //console.log(bottomStripe);
-//allLines.push(bottomStripe);
+allLines.push(bottomStripe);
 
-stippleV1(bottomStripe, 0.4, 4.1, 0.97);
+//stippleV1(bottomStripe, 0.4, 4.1, 0.97);
 
 
 
