@@ -44,7 +44,7 @@ const topRightEarAnchor = [((availableWidth - paddingForCenter) - widthOfHalfEar
 const rightTopAnchor = [(paddingForCenter + widthOfFace + padding), tallnessOfFace];
 const rightBottomAnchor = [(paddingForCenter + widthOfFace + padding), padding];
 
-const looseCatOutline = [
+const looseCatOutline = bt.catmullRom([
   leftTopAnchor,
   topLeftEarAnchor,
   leftMiddleAnchor,
@@ -54,9 +54,7 @@ const looseCatOutline = [
   rightBottomAnchor,
   leftBottomAnchor,
   leftTopAnchor
-];
-
-
+],100);
 //making the cat's edges jagged
 
 /*idea: keep adding random line segments together 
@@ -96,7 +94,7 @@ newPoints.push([x,y]);
 };
 
 };
-console.log(newPoints);
+
 
 //months.splice(4, 1, 'May');
 // Replaces 1 element at index 4
@@ -110,7 +108,6 @@ looseCatOutline.splice(index, 2, [newPoints]);
 
 const months = ['Jan', 'March', 'April', 'June'];
 months.splice(1, 0, 'Feb');
-console.log(months);
 
 
 
@@ -122,7 +119,7 @@ console.log(months);
 
 //making the bounding box for the eyes
 const boxOffset = tallnessOfFace * (r(1 / 6, 1 / 5));
-const boxWidth = widthOfFace * (r(0.7, 1));
+const boxWidth = widthOfFace * (r(1/3, 1));
 const boxHeight = tallnessOfFace * (r(1 / 3, 1 / 1.75));
 
 const leftEyeBox = (paddingForCenter + ((widthOfFace - boxWidth) / 2))
@@ -224,14 +221,36 @@ function stippleV1(shape, Density, noise) {
 
 stippleV1(innerEyeLeft, 0.17,2);
 stippleV1(innerEyeRight, 0.17,2);
-stippleV1(outerEyeRight, 0.25,3);
-stippleV1(outerEyeLeft, 0.25,3);
-stippleV1(looseCatOutline, 0.4,10);
+stippleV1(outerEyeRight, 0.25,2);
+stippleV1(outerEyeLeft, 0.25,2);
+stippleV1(looseCatOutline, 0.1, 6);
 
 
+//trying to draw stripes!!
+
+//bottom left stripe:
+
+const midCoords = [bt.bounds([looseCatOutline]).cb[0] - r(widthOfFace*0.1, widthOfFace*0.2),
+                   bt.bounds([looseCatOutline]).cb[1]]
+
+const midEyeCoords = [bt.bounds([innerEyeLeft]).cb[0] - r(eyeWidth*0.3, eyeWidth* 0.5),
+                      bt.bounds([innerEyeLeft]).cb[1]];
+console.log(midCoords);
+console.log(midEyeCoords);
 
 
+const bottomStripe = [
+  [midEyeCoords[0], midEyeCoords[1]],
+  [midEyeCoords[0] + r(3,6), midEyeCoords[1]],
+  [midCoords[0] + r(4,7), midCoords[1]],
+  [midCoords[0], midCoords[1]],
+  [midEyeCoords[0], midEyeCoords[1]]
+  ];
 
+//console.log(bottomStripe);
+//allLines.push(bottomStripe);
+
+stippleV1(bottomStripe, 0.17, 2);
 
 
 
