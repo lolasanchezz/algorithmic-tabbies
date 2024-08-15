@@ -229,13 +229,28 @@ stippleV1(looseCatOutline, 0.1, 6,0.935);
 
 //bottom left stripe:
 
-const midCoords = [bt.bounds([looseCatOutline]).cb[0] - r(widthOfFace*0.1, widthOfFace*0.2),
-                   bt.bounds([looseCatOutline]).cb[1]]
+//const bottomMidCoords = [bt.bounds([looseCatOutline]).cb[0] - r(widthOfFace*0.1, widthOfFace*0.2),
+                   //bt.bounds([looseCatOutline]).cb[1]]
 
-const midEyeCoords = [bt.bounds([innerEyeLeft]).cb[0] - r(eyeWidth*0.3, eyeWidth* 0.5),
-                      bt.bounds([innerEyeLeft]).cb[1]];
-console.log(midCoords);
-console.log(midEyeCoords);
+
+
+
+/*
+const midEyeCoords = [
+  bt.bounds([innerEyeLeft]).cb[0] - r(eyeWidth*0.3, eyeWidth* 0.5),
+  bt.bounds([innerEyeLeft]).cb[1];
+]
+  */
+
+let pointMove = bt.randIntInRange(0,413);
+const midEyeCoords = outerEyeLeft[outerEyeLeft.indexOf(bt.bounds([outerEyeLeft]).cb[0])+(pointMove)];
+
+ pointMove = bt.randIntInRange(0,302);
+
+const midCoords = looseCatOutline[looseCatOutline.indexOf(bt.bounds([looseCatOutline]).cb[0])+(pointMove)];
+
+console.log(bt.bounds([looseCatOutline]).cb);
+
 
 const midThickness = r(3,7);
 const topThickness = r(-3,3);
@@ -244,7 +259,10 @@ const leftCurve = [midEyeCoords[0] - midThickness, ((midEyeCoords[1]-midCoords[1
 
 
 
-const bottomStripe = bt.catmullRom([
+
+
+
+const bottomStripe = [
   [midEyeCoords[0] - midThickness, midEyeCoords[1]],
   [midEyeCoords[0] + midThickness, midEyeCoords[1]],
   rightCurve,
@@ -253,12 +271,12 @@ const bottomStripe = bt.catmullRom([
   [midCoords[0], midCoords[1]],
   leftCurve,
   [midEyeCoords[0]-midThickness, midEyeCoords[1]]
-  ],100);
+  ];
 
 //console.log(bottomStripe);
 //allLines.push(bottomStripe);
 
-stippleV1(bottomStripe, -0.1, 2.1, 0.9);
+stippleV1(bottomStripe, 0.4, 4.1, 0.97);
 
 
 
@@ -270,3 +288,4 @@ stippleV1(bottomStripe, -0.1, 2.1, 0.9);
 
 
 drawLines(allLines);
+
