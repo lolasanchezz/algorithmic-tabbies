@@ -56,7 +56,58 @@ const looseCatOutline = [
   leftTopAnchor
 ];
 
-allLines.push(looseCatOutline);
+
+//making the cat's edges jagged
+
+/*idea: keep adding random line segments together 
+that slightly deviate from path  until the added y
+OR x coordinates add up to the original lines's length - 
+then replace the targeted points in the looseCatOutline array
+w/new points
+*/
+
+function jaggedOutline(line, index, direction){
+let newPoints = [];
+let x = 0;
+let y = 0;
+const jaggedness = 2;
+
+if (direction === "vertical"){
+let maxY = line[index+1][1];
+x = line[index][0];
+y = line[index][1];
+
+while (y <= maxY){
+x = x + r((-1*jaggedness), jaggedness);
+y = y + r(jaggedness/2, jaggedness^2);
+newPoints.push([x,y]);
+  
+}
+} else if (direction === "horizontal"){
+let maxX = line[index+1][0];
+x = line[index][0];
+y = line[index][1];
+
+while (x <= maxX){
+x = x + r(jaggedness/2, jaggedness^2);
+y = y + r(-1*jaggedness, jaggedness);
+newPoints.push([x,y]);
+
+};
+
+};
+
+line.splice(index, 2, newPoints);
+  
+};
+  
+jaggedOutline(looseCatOutline, 5, "vertical");  
+
+
+
+
+
+
 
 
 
@@ -136,7 +187,7 @@ previous for loop
 
 
 
-function stippleV1(shape, Density) {
+function stippleV1(shape, Density, noise) {
 //parameters
   const gapBetweenIterations = 0.966;
   const dotThickness = 0.01;
@@ -150,8 +201,8 @@ function stippleV1(shape, Density) {
   bt.resample([stiShape], density);
   //bt.rotate([stiShape], 25);
   for (let i = 0; i < stiShape.length; i++){
-    let deviationX = r(0.5,1);
-    let deviationY = r(0.5 ,1);
+    let deviationX = r(0.5,noise);
+    let deviationY = r(0.5 ,noise);
   let newRightLine = [
     [stiShape[i][0] + deviationX, stiShape[i][1] + deviationY],
     [stiShape[i][0] + dotThickness + deviationX, stiShape[i][1] + dotThickness + deviationY]
@@ -165,10 +216,14 @@ function stippleV1(shape, Density) {
   
 };
 
-stippleV1(innerEyeLeft, 0.18);
-stippleV1(innerEyeRight, 0.18);
-stippleV1(outerEyeRight, 0.25);
-stippleV1(outerEyeLeft, 0.25);
+stippleV1(innerEyeLeft, 0.17,1);
+stippleV1(innerEyeRight, 0.17,1);
+stippleV1(outerEyeRight, 0.25,1);
+stippleV1(outerEyeLeft, 0.25,1);
+stippleV1(looseCatOutline, 0.4,4);
+
+
+
 
 
 
